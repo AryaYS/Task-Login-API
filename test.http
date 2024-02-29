@@ -1,0 +1,26 @@
+###
+POST http://localhost:3000/api/login/
+Accept: application/json
+Content-Type: application/json
+
+{
+   "user_name": "Ali",
+   "user_pass": "ALiudin"
+}
+
+###
+GET http://localhost:3000/api/all/1
+
+###
+GET http://localhost:3000/api/logout
+
+###
+POST http://localhost:3000/api/regis/
+Accept: application/json
+Content-Type: application/json
+
+{
+   "user_name": "Ali",
+   "user_pass": "ALiudin",
+   "role_id" : 1
+}

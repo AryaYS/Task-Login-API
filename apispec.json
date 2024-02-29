@@ -1,0 +1,225 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Category RESTful API",
+    "description": "API Spec for Category RESTful API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api"
+    }
+  ],
+  "paths": {
+      "/login": {
+        "post" : {
+          "security": [],
+          "tags":[
+            "All User"
+          ],
+          "description": "Log In User",
+          "summary": "Login User",
+          "requestBody": {
+            "content": {
+              "application/json" :{
+                "schema" : {
+                  "$ref": "#/components/schemas/LogIn"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200":{
+              "description": "Login Success",
+              "content": {
+                "application/json":{
+                  "schema" :{
+                    "type": "object",
+                    "properties": {
+                      "code":{
+                        "type": "number"
+                      },
+                      "status":{
+                        "type": "string"
+                      },
+                      "data":{
+                        "$ref": "#/components/schemas/User-Role"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+    "/regis":{
+      "post" : {
+        "security": [],
+        "tags":[
+          "All User"
+        ],
+        "description": "Add New User",
+        "summary": "Register User",
+        "requestBody": {
+          "content": {
+            "application/json" :{
+              "schema" : {
+                "$ref": "#/components/schemas/Register"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200":{
+            "description": "Register Success",
+            "content": {
+              "application/json":{
+                "schema" :{
+                  "type": "object",
+                  "properties": {
+                    "code":{
+                      "type": "number"
+                    },
+                    "status":{
+                      "type": "string"
+                    },
+                    "data":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/logout":{
+      "get" :{
+        "security": [],
+        "tags": ["All User"],
+        "summary": "Log Out",
+        "description": "Delete cookie",
+        "responses": {
+          "200":{
+            "description": "LogOut",
+            "content": {
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "properties": {
+                    "code":{
+                      "type": "number"
+                    },
+                    "status":{
+                      "type": "string"
+                    },
+                    "data":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/GetByRole":{
+      "get" :{
+        "security": [],
+        "tags": ["Admin only"],
+        "summary": "Get List User by role",
+        "description": "get each user based on role",
+        "parameters": [
+          {
+            "schema":{
+
+            },
+            "required": true,
+            "name": "id",
+            "in": "path",
+            "description": "Role Id"
+          }
+        ],
+        "responses": {
+          "200":{
+            "description": "Get By Role",
+            "content": {
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "properties": {
+                    "code":{
+                      "type": "number"
+                    },
+                    "status":{
+                      "type": "string"
+                    },
+                    "data":{
+                      "$ref": "#/components/schemas/Role-UserList"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "LogIn" : {
+        "type": "object",
+        "properties": {
+          "user_name": {
+            "type": "string"
+          },
+          "user_pass":{
+            "type": "string"
+          }
+        }
+      },
+      "Register" : {
+        "type": "object",
+        "properties": {
+          "user_name": {
+            "type": "string"
+          },
+          "user_pass":{
+            "type": "string"
+          },
+          "role_id": {
+            "type": "integer"
+          }
+      }},
+      "User-Role" : {
+        "type": "object",
+        "properties": {
+          "user_name": {
+            "type": "string"
+          },
+          "role_id": {
+            "type": "number"
+          }
+        }
+      },
+      "Role-UserList":{
+        "type": "object",
+        "properties": {
+          "role_id":{
+            "type": "integer"
+          },
+          "role_name":{
+            "type": "string"
+          },
+          "user":{
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}
