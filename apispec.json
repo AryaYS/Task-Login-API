@@ -220,6 +220,14 @@
           }
         }
       }
+    },
+    "securitySchemes": {
+      "UserLoginAuth" :{
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key",
+        "description": "Authentication to access API"
+      }
     }
   }
 }

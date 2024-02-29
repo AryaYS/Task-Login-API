@@ -1,5 +1,6 @@
 ###
 POST http://localhost:3000/api/login/
+X-API-Key: RAHASIA
 Accept: application/json
 Content-Type: application/json
 
@@ -10,17 +11,20 @@ Content-Type: application/json
 
 ###
 GET http://localhost:3000/api/all/1
+X-API-Key: RAHASIA
 
 ###
 GET http://localhost:3000/api/logout
+X-API-Key: RAHASIA
 
 ###
 POST http://localhost:3000/api/regis/
 Accept: application/json
 Content-Type: application/json
+X-API-Key: RAHASIA
 
 {
-   "user_name": "Ali",
+   "user_name": "",
    "user_pass": "ALiudin",
    "role_id" : 1
 }
