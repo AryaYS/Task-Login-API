@@ -21,7 +21,7 @@ X-API-Key: RHS
 POST http://localhost:3000/api/regis/
 Accept: application/json
 Content-Type: application/json
-X-API-Key: RAHASIA
+X-API-Key: RHS
 
 {
    "user_name": "",
