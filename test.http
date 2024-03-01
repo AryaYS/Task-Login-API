@@ -1,6 +1,6 @@
 ###
 POST http://localhost:3000/api/login/
-X-API-Key: RAHASIA
+X-API-Key: RHS
 Accept: application/json
 Content-Type: application/json
 
@@ -10,12 +10,12 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3000/api/all/1
-X-API-Key: RAHASIA
+GET http://localhost:3000/api/GetByRole/1
+X-API-Key: RHS
 
 ###
 GET http://localhost:3000/api/logout
-X-API-Key: RAHASIA
+X-API-Key: RHS
 
 ###
 POST http://localhost:3000/api/regis/

@@ -4,6 +4,7 @@ import (
 	"apilogin/connection"
 	"apilogin/controller"
 	"apilogin/exception"
+	"apilogin/middleware"
 	"apilogin/repository"
 	"apilogin/service"
 	"net/http"
@@ -28,7 +29,7 @@ func main() {
 	router.PanicHandler = exception.ErrorHandler
 	server := http.Server{
 		Addr:    "localhost:3000",
-		Handler: router,
+		Handler: middleware.NewAuthMiddleware(router),
 	}
 
 	err := server.ListenAndServe()
