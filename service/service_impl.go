@@ -18,6 +18,33 @@ type ServiceImpl struct {
 	validate *validator.Validate
 }
 
+// ChangePassword implements ServiceInterface.
+func (s *ServiceImpl) ChangePassword(ctx context.Context, req response.User_req) {
+	db := s.tx.Begin()
+	user := s.repo.SelectByName(ctx, db, req.User_name)
+	newpass, err := helper.HashPassword(req.User_pass)
+	if err != nil {
+		panic(exception.BadRequestF(err.Error()))
+	}
+	user.User_pass = newpass
+	err = s.repo.UpdatePassword(ctx, db, user)
+	if err != nil {
+		panic(exception.BadRequestF(err.Error()))
+	}
+	defer helper.CommitOrRollback(db)
+}
+
+// DeleteUser implements ServiceInterface.
+func (s *ServiceImpl) DeleteUser(ctx context.Context, req response.User_req) {
+	db := s.tx.Begin()
+	user := s.repo.SelectByName(ctx, db, req.User_name)
+	err := s.repo.DeleteUser(ctx, db, user)
+	if err != nil {
+		panic(err.Error())
+	}
+	defer helper.CommitOrRollback(db)
+}
+
 // AllWorkerByJobService implements ServiceInterface.
 func (s *ServiceImpl) AllWorkerByJobService(ctx context.Context, req int) response.Role {
 	res := s.repo.GetListWorkerByJob(ctx, s.tx, req)

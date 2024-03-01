@@ -2,6 +2,7 @@ package controller
 
 import (
 	"apilogin/exception"
+	"apilogin/helper"
 	"apilogin/model/response"
 	"apilogin/service"
 	"encoding/json"
@@ -15,6 +16,64 @@ import (
 
 type ControllerImpl struct {
 	service service.ServiceInterface
+}
+
+// ChangePasswordAccount implements UserController.
+func (c *ControllerImpl) ChangePasswordAccount(wr http.ResponseWriter, req *http.Request, params httprouter.Params) {
+	tkn := helper.GetCookieUser(req)
+	pers := response.User_req{}
+	if claims, ok := tkn.Claims.(jwt.MapClaims); ok && tkn.Valid {
+		usernm := claims["user_name"].(string)
+		decode := json.NewDecoder(req.Body)
+		var user_ response.User_req
+		err := decode.Decode(&user_)
+		user_.User_name = usernm
+		pers = user_
+		if err != nil {
+			panic(err)
+		}
+	}
+	c.service.ChangePassword(req.Context(), pers)
+	web := response.WebResponse{
+		Code:   200,
+		Status: "Password Changed",
+		Data:   "Success",
+	}
+	wr.Header().Add("Content-Type", "application/json")
+	encode := json.NewEncoder(wr)
+	err := encode.Encode(web)
+	if err != nil {
+		panic(err)
+	}
+}
+
+// DeleteUserAccount implements UserController.
+func (c *ControllerImpl) DeleteUserAccount(wr http.ResponseWriter, req *http.Request, params httprouter.Params) {
+	tkn := helper.GetCookieUser(req)
+	if claims, ok := tkn.Claims.(jwt.MapClaims); ok && tkn.Valid {
+		sid := int(claims["role_id"].(float64))
+		if sid != 1 {
+			panic(exception.NewUnauthorizedf("Only Admin can access"))
+		}
+	}
+	decode := json.NewDecoder(req.Body)
+	userDel := response.User_req{}
+	err := decode.Decode(&userDel)
+	if err != nil {
+		panic(err)
+	}
+	c.service.DeleteUser(req.Context(), userDel)
+	web := response.WebResponse{
+		Code:   200,
+		Status: "Deleted",
+		Data:   "User Deleted",
+	}
+	wr.Header().Add("Content-Type", "application/json")
+	encode := json.NewEncoder(wr)
+	err = encode.Encode(web)
+	if err != nil {
+		panic(err)
+	}
 }
 
 // LogOut implements UserController.
@@ -40,22 +99,7 @@ func (*ControllerImpl) LogOut(wr http.ResponseWriter, req *http.Request, params 
 
 // GetAllWorkerBasedOnRole implements UserController.
 func (c *ControllerImpl) GetAllWorkerBasedOnRole(wr http.ResponseWriter, req *http.Request, params httprouter.Params) {
-	cookie, err := req.Cookie("token")
-	if err != nil {
-		if err == http.ErrNoCookie {
-			panic(exception.NotFoundErrorF("Not Found any Cookie"))
-		}
-		panic(err)
-	}
-
-	tokenStr := cookie.Value
-	tkn, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
-		return []byte("your_key"), nil
-	})
-
-	if err != nil {
-		panic(err)
-	}
+	tkn := helper.GetCookieUser(req)
 	if claims, ok := tkn.Claims.(jwt.MapClaims); ok && tkn.Valid {
 		sid := int(claims["role_id"].(float64))
 		if sid != 1 {

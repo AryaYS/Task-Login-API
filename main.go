@@ -24,6 +24,8 @@ func main() {
 	router.POST("/api/regis", ctrl.RegisterController)
 	router.POST("/api/login", ctrl.LoginController)
 	router.GET("/api/logout", ctrl.LogOut)
+	router.PUT("/api/changepass", ctrl.ChangePasswordAccount)
+	router.DELETE("/api/deleteuser", ctrl.DeleteUserAccount)
 	router.GET("/api/GetByRole/:id", ctrl.GetAllWorkerBasedOnRole)
 
 	router.PanicHandler = exception.ErrorHandler

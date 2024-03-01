@@ -10,7 +10,7 @@
       "url": "http://localhost:3000/api"
     }
   ],
-  "paths": {
+  "paths": { 
       "/login": {
         "post" : {
           "security": [],
@@ -167,6 +167,84 @@
           }
         }
       }
+    },
+    "/ChangePasswordAccount":{
+      "put":{
+        "tags": ["All User"],
+        "summary": "Change Account Password",
+        "description": "Alter User Password",
+        "requestBody": {
+          "content": {
+            "application/json" :{
+              "schema" : {
+                "$ref": "#/components/schemas/Password-Change"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200":{
+            "description": "Password Changed",
+            "content": {
+              "application/json":{
+                "schema" :{
+                  "type": "object",
+                  "properties": {
+                    "code":{
+                      "type": "number"
+                    },
+                    "status":{
+                      "type": "string"
+                    },
+                    "data":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deleteuser":{
+      "delete":{
+        "tags": ["Admin only"],
+        "summary": "User Deletion",
+        "description": "Delete User",
+        "requestBody": {
+          "content": {
+            "application/json" :{
+              "schema" : {
+                "$ref": "#/components/schemas/deletion-user"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200":{
+            "description": "User Deleted",
+            "content": {
+              "application/json":{
+                "schema" :{
+                  "type": "object",
+                  "properties": {
+                    "code":{
+                      "type": "number"
+                    },
+                    "status":{
+                      "type": "string"
+                    },
+                    "data":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -217,6 +295,20 @@
           },
           "user":{
             "type": "object"
+          }
+        }
+      },
+      "Password-Change":{
+        "properties": {
+          "user_pass":{
+            "type": "string"
+          }
+        }
+      },
+      "deletion-user":{
+        "properties": {
+          "user_name":{
+            "type": "string"
           }
         }
       }

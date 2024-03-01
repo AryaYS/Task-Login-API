@@ -5,13 +5,19 @@ Accept: application/json
 Content-Type: application/json
 
 {
-   "user_name": "Ali",
-   "user_pass": "ALiudin"
+   "user_name": "Alima",
+   "user_pass": "ALiudi"
 }
 
 ###
-GET http://localhost:3000/api/GetByRole/1
+DELETE http://localhost:3000/api/deleteuser
 X-API-Key: RHS
+Accept: application/json
+Content-Type: application/json
+
+{
+   "user_name": "Ali"
+}
 
 ###
 GET http://localhost:3000/api/logout
@@ -24,7 +30,20 @@ Content-Type: application/json
 X-API-Key: RHS
 
 {
-   "user_name": "",
+   "user_name": "Ali",
    "user_pass": "ALiudin",
-   "role_id" : 1
+   "role_id" : 2
 }
+
+###
+PUT http://localhost:3000/api/changepass
+X-API-Key: RHS
+Accept: application/json
+Content-Type: application/json
+
+{
+   "user_pass": "ALiudi"
+}
+
+GET http://localhost:3000/api/GetByRole/1
+X-API-Key: RHS

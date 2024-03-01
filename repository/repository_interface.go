@@ -11,4 +11,6 @@ type RepoApp interface {
 	SelectByName(ctx context.Context, db *gorm.DB, username string) model.User
 	CreateUser(ctx context.Context, db *gorm.DB, req model.User) error
 	GetListWorkerByJob(ctx context.Context, db *gorm.DB, id_role int) model.Role
+	UpdatePassword(ctx context.Context, db *gorm.DB, user model.User) error
+	DeleteUser(ctx context.Context, db *gorm.DB, user model.User) error
 }

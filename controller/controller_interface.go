@@ -11,4 +11,6 @@ type UserController interface {
 	RegisterController(wr http.ResponseWriter, req *http.Request, param httprouter.Params)
 	GetAllWorkerBasedOnRole(wr http.ResponseWriter, r *http.Request, params httprouter.Params)
 	LogOut(wr http.ResponseWriter, req *http.Request, params httprouter.Params)
+	ChangePasswordAccount(wr http.ResponseWriter, req *http.Request, params httprouter.Params)
+	DeleteUserAccount(wr http.ResponseWriter, req *http.Request, params httprouter.Params)
 }
